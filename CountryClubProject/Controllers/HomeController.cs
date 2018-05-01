@@ -22,6 +22,13 @@ namespace CountryClubProject.Controllers
             return View();
         }
 
+        public IActionResult Course()
+        {
+            //added a course view in the soulution explorer
+            return View();
+            //return Json("18 Holes");
+        }
+
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
