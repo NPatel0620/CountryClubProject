@@ -1,14 +1,11 @@
 ﻿/*free to run all css in here for the site*/
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    
 }
 
 /* Carousel */
@@ -26,11 +23,24 @@ body {
 #qrCode {
     margin: 15px;
 }
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
+/* Rules for Tablets */
+@media all and (max-width: 900px) {
+    .body-wrapper {
+        background-color: red;
     }
 }
+
+
+/* Rules for mobile */
+@media all and (max-width: 650px) {
+    .body-wrapper {
+        background-color: lightgreen;
+    }
+
+    /* Hide/rearrange for smaller screens */
+    @media screen and (max-width: 767px) {
+        /* Hide captions */
+        .carousel-caption {
+            display: none;
+        }
+    }

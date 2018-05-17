@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Lessons>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Showing @Model.Count() Lesson Plans</h2>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Lessons" asp-action="Index">Lessons</a></li>
+    </ol>
+</nav>
+<div class="row">
+    @foreach (var plans in Model)
+    {
+    <div class="card col-sm-12 col-md-6 col-lg-4">
+        <h3>@plans.Instructor</h3>
+        <h3>@plans.TimeMin -- Minutes</h3>
+        <h3>@plans.LessonQty -- Lessons</h3>
+        <h3>@(plans.Price.HasValue ? plans.Price.Value.ToString("C") : "Call For Price")</h3>
+        <a class="btn btn-primary" href="/Lessons/Details/@plans.ID">View Instructor</a>
+        @*option 2 using asp helpers to get the href*@
+        <a class="btn btn-primary" asp-controller="Lessons" asp-action="Details" asp-route-id="@plans.ID">Option 2</a>
+    </div>
+    }
+</div>
+

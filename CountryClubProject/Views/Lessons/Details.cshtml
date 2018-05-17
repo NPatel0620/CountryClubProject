@@ -1,0 +1,24 @@
+﻿@model Lessons
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>@Model.Instructor</h2>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Lessons" asp-action="Index">Lessons</a></li>
+        <li class="breadcrumb-item active" aria-current="page"> @Model.Instructor </li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <img class="img-fluid" src="@Model.Image" alt="@Model.Instructor" />
+    </div>
+    <div class="col-sm-12 col-md-8">
+        <h2>@Model.Instructor</h2>
+        <p>@Model.TimeMin</p>
+        <h4>@(Model.Price.HasValue ? Model.Price.Value.ToString("C") : "Call For Price")</h4>
+    </div>
+</div>
