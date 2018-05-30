@@ -30,7 +30,7 @@ namespace CountryClubProject
             //Right click on your Project -> Manage NuGet Packages
             //Configuration.GetConnectionString("AdventureWorks2016");
 
-            //
+            
             string countryClubConnectionString = Configuration.GetConnectionString("CountryClub");
 
             //using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -52,6 +52,27 @@ namespace CountryClubProject
             {
                 o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
+            services.AddTransient((x) => { return new EmailService(Configuration["SendGridKey"]); });
+            services.AddTransient((x) => { return new Braintree.BraintreeGateway(
+                                                      Configuration["BraintreeEnvironment"],
+                                                      Configuration["BraintreeMerchantId"],
+                                                      Configuration["BraintreePublicKey"],
+                                                      Configuration["BraintreePrivateKey"]);
+          
+            });
+            services.AddTransient((x) =>
+            {
+                SmartyStreets.ClientBuilder builder = new SmartyStreets.ClientBuilder(Configuration["SmartyStreetsAuthId"], Configuration["SmartyStreetsAuthToken"]);
+                return builder.BuildUsStreetApiClient();
+            });
+
+            services.AddTransient((x) =>
+            {
+
+                Microsoft.WindowsAzure.Storage.CloudStorageAccount account = Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(Configuration.GetConnectionString("CountryClubBlob"));
+                return account.CreateCloudBlobClient();
             });
         }
 

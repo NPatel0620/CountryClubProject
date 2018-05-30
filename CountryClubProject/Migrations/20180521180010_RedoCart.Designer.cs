@@ -11,9 +11,10 @@ using System;
 namespace CountryClubProject.Migrations
 {
     [DbContext(typeof(CountryClubDbContext))]
-    partial class CountryClubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180521180010_RedoCart")]
+    partial class RedoCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,13 +30,7 @@ namespace CountryClubProject.Migrations
 
                     b.Property<DateTime>("LastModified");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Carts");
                 });
@@ -117,58 +112,6 @@ namespace CountryClubProject.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("CountryClubProject.Models.Order", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AddressLine1");
-
-                    b.Property<string>("AddressLine2");
-
-                    b.Property<string>("Country");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("Locale");
-
-                    b.Property<DateTime>("OrderDate");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<string>("PostalCode");
-
-                    b.Property<string>("Region");
-
-                    b.Property<string>("TrackingNumber");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("CountryClubProject.Models.OrderItem", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("OrderID");
-
-                    b.Property<int>("ProductID");
-
-                    b.Property<string>("ProductName");
-
-                    b.Property<decimal>("ProductPrice");
-
-                    b.Property<int>("Quantity");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("OrderID");
-
-                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("CountryClubProject.Models.Product", b =>
@@ -315,16 +258,9 @@ namespace CountryClubProject.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CountryClubProject.Models.Cart", b =>
-                {
-                    b.HasOne("CountryClubProject.Models.CountryClubUser", "User")
-                        .WithOne("Cart")
-                        .HasForeignKey("CountryClubProject.Models.Cart", "UserId");
-                });
-
             modelBuilder.Entity("CountryClubProject.Models.CartItem", b =>
                 {
-                    b.HasOne("CountryClubProject.Models.Cart")
+                    b.HasOne("CountryClubProject.Models.Cart", "Cart")
                         .WithMany("CartItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -333,13 +269,6 @@ namespace CountryClubProject.Migrations
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CountryClubProject.Models.OrderItem", b =>
-                {
-                    b.HasOne("CountryClubProject.Models.Order", "Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderID");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

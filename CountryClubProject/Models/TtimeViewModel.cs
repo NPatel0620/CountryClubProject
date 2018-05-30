@@ -9,8 +9,8 @@ namespace CountryClubProject.Models
     {
         public TtimeViewModel()
         {
-            var slot = 1;
-            DateTime today = DateTime.Now.Date.AddHours(7);
+            var slot = 8;
+            DateTime today = DateTime.Now.Date.AddMinutes(20);
             Groups = new GroupViewModel[10];
             for (int i = 0; i < 10; i++)
             {

@@ -27,24 +27,19 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Home" asp-action="Overview">Course Bio</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index"><span id="cartBadge" class="badge badge-primary">0</span>Cart</a>
-                </li>
 
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                     <li class="nav-item">
-                         <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
-                     </li>
-                     <li class="nav-item">
-                         <a class="nav-link" asp-area="" asp-controller="Account" asp-action="SignIn">Sign In</a>
-                     </li>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="SignIn">Sign In</a>
+                    </li>
                 }
                 else
                 {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="SignOut">Sign Out as @User.Identity.Name</a>
-                    </li>
+                   
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Lessons" asp-action="Index">Lessons</a>
                     </li>
@@ -52,10 +47,16 @@
                         <a class="nav-link" asp-controller="Product" asp-action="Index">Pro-Shop</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index"><span id="cartBadge" class="badge badge-primary">0</span>Cart</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Ttime">Book A Tee Time</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="SignOut">Sign Out as @User.Identity.Name</a>
+                    </li>
                 }
-                </ul>
+            </ul>
             </div>
             <div class="dropdown dropleft">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

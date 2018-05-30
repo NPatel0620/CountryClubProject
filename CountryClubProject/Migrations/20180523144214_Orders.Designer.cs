@@ -11,9 +11,10 @@ using System;
 namespace CountryClubProject.Migrations
 {
     [DbContext(typeof(CountryClubDbContext))]
-    partial class CountryClubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180523144214_Orders")]
+    partial class Orders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,13 +30,7 @@ namespace CountryClubProject.Migrations
 
                     b.Property<DateTime>("LastModified");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Carts");
                 });
@@ -315,16 +310,9 @@ namespace CountryClubProject.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CountryClubProject.Models.Cart", b =>
-                {
-                    b.HasOne("CountryClubProject.Models.CountryClubUser", "User")
-                        .WithOne("Cart")
-                        .HasForeignKey("CountryClubProject.Models.Cart", "UserId");
-                });
-
             modelBuilder.Entity("CountryClubProject.Models.CartItem", b =>
                 {
-                    b.HasOne("CountryClubProject.Models.Cart")
+                    b.HasOne("CountryClubProject.Models.Cart", "Cart")
                         .WithMany("CartItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade);

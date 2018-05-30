@@ -17,7 +17,7 @@ namespace CountryClubProject.Models
         public string Password { get; set; }
 
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
         public string Email { get; set; }
 
         [Required]

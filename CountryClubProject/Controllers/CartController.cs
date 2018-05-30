@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CountryClubProject.Models;
-using static CountryClubProject.Models.CountryClubUser;
+
 
 namespace CountryClubProject.Controllers
 {
@@ -17,7 +17,7 @@ namespace CountryClubProject.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             Guid cartId;
             Cart cart = null;
@@ -25,10 +25,10 @@ namespace CountryClubProject.Controllers
             {
                 if (Guid.TryParse(Request.Cookies["cartId"], out cartId))
                 {
-                    cart = _context.Carts
+                    cart = await _context.Carts
                         .Include(carts => carts.CartItems)
                         .ThenInclude(cartItems => cartItems.Product)
-                        .FirstOrDefault(x => x.CookieIdentifier == cartId);
+                        .FirstOrDefaultAsync(x => x.CookieIdentifier == cartId);
                 }
             }
             if(cart == null)
@@ -38,7 +38,7 @@ namespace CountryClubProject.Controllers
             return View(cart);
         }
 
-        public IActionResult Remove(int id)
+        public async Task<IActionResult> Remove(int id)
         {
             Guid cartId;
             Cart cart = null;
@@ -46,19 +46,19 @@ namespace CountryClubProject.Controllers
             {
                 if (Guid.TryParse(Request.Cookies["cartId"], out cartId))
                 {
-                    cart = _context.Carts
+                    cart = await _context.Carts
                         .Include(carts => carts.CartItems)
                         .ThenInclude(cartItems => cartItems.Product)
-                        .FirstOrDefault(x => x.CookieIdentifier == cartId);
+                        .FirstOrDefaultAsync(x => x.CookieIdentifier == cartId);
                 }
             }
-            CountryClubUser.CartItem item = cart.CartItems.FirstOrDefault(x => x.ID == id);
+            CartItem item = cart.CartItems.FirstOrDefault(x => x.CartId == id);
 
             cart.LastModified = DateTime.Now;
 
             _context.CartItems.Remove(item);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
     }

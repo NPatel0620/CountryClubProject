@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CountryClubProject.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CountryClubProject.Controllers
 {
+    
     public class ProductsAdminController : Controller
     {
         private readonly CountryClubDbContext _context;
@@ -99,9 +101,9 @@ namespace CountryClubProject.Controllers
             string newFile = System.IO.Path.Combine(_env.WebRootPath, "images", imageFile.FileName);
 
             System.IO.FileInfo newFileInfo = new System.IO.FileInfo(newFile);
-            using (System.IO.FileStream fs = newFileInfo.Create())
+            using (System.IO.FileStream fs = newFileInfo.Create()) 
             {
-                imageFile.CopyTo(fs);
+                await imageFile.CopyToAsync(fs);
                 fs.Close();
             }
 

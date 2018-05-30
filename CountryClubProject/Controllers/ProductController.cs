@@ -4,24 +4,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Identity;
 using CountryClubProject.Models;
 using Microsoft.Extensions.Configuration;
+
 
 namespace CountryClubProject.Controllers
 {
     public class ProductController : Controller
     {
         private readonly CountryClubDbContext _context;
-        public ProductController(CountryClubDbContext context)
+        private SignInManager<CountryClubUser> _signInManager;
+
+        public ProductController(CountryClubDbContext context, SignInManager<CountryClubUser> signInManager)
         {
             _context = context;
+            _signInManager = signInManager;
         }
         
         public IActionResult Index()
         {
             List<Product> products = _context.Products.ToList();
-            return View();
+            return View(products);
         }
         public IActionResult Details(int? id)
         {
@@ -37,7 +41,7 @@ namespace CountryClubProject.Controllers
         public IActionResult Details(int id, int quantity = 1)
         {
             Guid cartId;
-            CartController cart = null;
+            Cart cart = null;
             if (Request.Cookies.ContainsKey("cartId"))
             {
 
@@ -47,7 +51,7 @@ namespace CountryClubProject.Controllers
                         .Include(carts => carts.CartItems)
                         .ThenInclude(cartitems => cartitems.Product)
                         .FirstOrDefault(x => x.CookieIdentifier == cartId);
-        
+
                 }
             }
 
@@ -60,8 +64,8 @@ namespace CountryClubProject.Controllers
                 _context.Carts.Add(cart);
                 Response.Cookies.Append("cartId", cartId.ToString(), new Microsoft.AspNetCore.Http.CookieOptions { Expires = DateTime.UtcNow.AddYears(100) });
             }
-            CartItem item = cart.CartItems.FirstorDefault(x => x.Product.ID == id);
-            if(item == null)
+            CartItem item = cart.CartItems.FirstOrDefault(x => x.Product.ID == id);
+            if (item == null)
             {
                 item = new CartItem();
                 item.Product = _context.Products.Find(id);

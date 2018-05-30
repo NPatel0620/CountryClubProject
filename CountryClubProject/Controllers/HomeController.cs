@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CountryClubProject.Models;
 using Microsoft.EntityFrameworkCore;
-using static CountryClubProject.Models.CountryClubUser;
+
 
 namespace CountryClubProject.Controllers
 {
@@ -78,7 +78,7 @@ namespace CountryClubProject.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult CartSummary()
+        public async Task<IActionResult> CartSummary()
         {
             Guid cartId;
             Cart cart = null;
@@ -86,10 +86,10 @@ namespace CountryClubProject.Controllers
             {
                 if(Guid.TryParse(Request.Cookies["cartId"], out cartId))
                 {
-                    cart = _db.Carts
+                    cart = await _db.Carts
                         .Include(carts => carts.CartItems)
                         .ThenInclude(cartitems => cartitems.Product)
-                        .FirstOrDefault(x => x.CookieIdentifier == cartId);
+                        .FirstOrDefaultAsync(x => x.CookieIdentifier == cartId);
                 }
             }
             if(cart == null)

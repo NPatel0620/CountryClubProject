@@ -11,9 +11,10 @@ using System;
 namespace CountryClubProject.Migrations
 {
     [DbContext(typeof(CountryClubDbContext))]
-    partial class CountryClubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180529193858_Cart")]
+    partial class Cart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
